@@ -1,9 +1,14 @@
+import { getFeaturedEvents } from "../data";
+import EventList from "../components/eventList";
+
 function HomePage() {
-    return(
-        <main>
-            <h1>The Home Page</h1>
-        </main>
-    )
-};
+  const featuredEvents = getFeaturedEvents();
+  return (
+    <main>
+      <h1>The Home Page</h1>
+      <EventList items={featuredEvents}/>
+    </main>
+  );
+}
 
 export default HomePage;
