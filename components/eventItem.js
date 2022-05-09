@@ -17,6 +17,8 @@ function EventItem(props) {
   });
   const exploreLink = `/events/${id}`;
 
+  const addressText = location.replace(', ', '\n');
+
   return (
     <li className={classes.item}>
       <img src={image} alt={title} />
@@ -29,7 +31,7 @@ function EventItem(props) {
           </div>
           <div className={classes.address}>
             <AddressIcon />
-            <p>{location}</p>
+            <address>{addressText}</address>
           </div>
         </div>
       </div>
