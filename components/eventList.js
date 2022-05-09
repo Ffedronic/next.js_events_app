@@ -6,7 +6,6 @@ function eventList(props) {
     const {items} = props;
   return (
     <section>
-      <h2>The event list</h2>
       <ul className={classes.list}>
         {items.map((event) => {
           return <EventItem
