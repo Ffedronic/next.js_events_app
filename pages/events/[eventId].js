@@ -1,13 +1,26 @@
 import { useRouter } from "next/router";
+import { Fragment } from "react";
+import EventSummary from "../../components/event-detail/event-summary";
+import EventLogistics from '../../components/event-detail/event-logistics';
+import EventContent from "../../components/event-detail/event-content";
+
+import {getEventById} from '../../data';
 
 function EventsDetailsPage() {
   const router = useRouter();
-  console.log(router.query);
-
+  const eventId = router.query.eventId;
+  const event = getEventById(eventId);
+  if(!event) {
+    return <p>No event found</p>;
+  }
   return (
-    <main>
-      <h1>The Event Details Page</h1>
-    </main>
+    <Fragment>
+      <EventSummary title={event.title}/>
+      <EventLogistics date={event.date} address={event.location} image={event.image} imageAlt={event.title}/>
+      <EventContent>
+        <p>{event.description}</p>
+      </EventContent>
+    </Fragment>
   );
 }
 
