@@ -3,8 +3,8 @@ import { getFilteredEvents } from "../../data";
 import EventList from "../../components/eventList";
 import { Fragment } from "react";
 import ResultsTitle from "../../components/results-title";
-import classes from "../../components/results-title.module.css";
 import Button from "../../components/ui/button";
+import ErrorAlert from "../../components/error-alert";
 
 function FilteredEventsPage() {
   const router = useRouter();
@@ -25,7 +25,16 @@ function FilteredEventsPage() {
     numMonth > 12 ||
     numMonth < 1
   ) {
-    return <p className="center">Invalid filter. Please check your values!</p>;
+    return (
+      <Fragment>
+        <ErrorAlert>
+          <p>Invalid filter. Please check your values!</p>
+        </ErrorAlert>
+        <div className="center">
+          <Button link="/events">Show all events</Button>
+        </div>
+      </Fragment>
+    );
   }
 
   const filteredEvents = getFilteredEvents({
@@ -33,17 +42,24 @@ function FilteredEventsPage() {
     month: numMonth,
   });
   if (!filteredEvents || filteredEvents.length === 0) {
-    return <Fragment>
-      <p className="center">No events found for the chosen filter!</p>
-      
-    </Fragment>;
+    return (
+      <Fragment>
+        <ErrorAlert>
+          {" "}
+          <p>No events found for the chosen filter!</p>
+        </ErrorAlert>
+        <div className="center">
+          <Button link="/events">Show all events</Button>
+        </div>
+      </Fragment>
+    );
   }
 
   const date = new Date(numYear, numMonth - 1);
 
   return (
     <Fragment>
-      <ResultsTitle date={date}/>
+      <ResultsTitle date={date} />
       <EventList items={filteredEvents} />
     </Fragment>
   );
