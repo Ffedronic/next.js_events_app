@@ -19,4 +19,4 @@ export async function getFeaturedEvents() {
   export async function getEventById(id) {
     const DUMMY_EVENTS = await getAllEvents();
     return DUMMY_EVENTS.find((event) => event.id === id);
-  }
+    }
