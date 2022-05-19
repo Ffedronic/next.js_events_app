@@ -4,6 +4,7 @@ import classes from "./evenList.module.css"
 
 function eventList(props) {
     const {items} = props;
+    
   return (
     <section>
       <ul className={classes.list}>
