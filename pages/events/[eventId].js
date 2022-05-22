@@ -4,7 +4,7 @@ import EventLogistics from "../../components/event-detail/event-logistics";
 import EventContent from "../../components/event-detail/event-content";
 
 import { getEventById, getAllEvents } from "../../helpers/api-util";
-import ErrorAlert from "../../components/error-alert";
+import ErrorAlert from "../../components/ui/error-alert";
 
 import Head from "next/head";
 

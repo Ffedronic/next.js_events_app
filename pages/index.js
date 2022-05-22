@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { getFeaturedEvents } from "../helpers/api-util";
-import EventList from "../components/eventList";
+import EventList from "../components/events/eventList";
 
 function HomePage(props) {
   const featuredEvents = getFeaturedEvents();

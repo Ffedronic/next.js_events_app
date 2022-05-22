@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import { useRouter } from "next/router";
 import { getAllEvents } from "../../helpers/api-util";
-import EventList from "../../components/eventList";
-import EventSearch from "../../components/event-search";
+import EventList from "../../components/events/eventList";
+import EventSearch from "../../components/events/event-search";
 import Head from "next/head";
 function EventsPage(props) {
 

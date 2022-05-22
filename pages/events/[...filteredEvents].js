@@ -1,9 +1,9 @@
 import { getFilteredEvents } from "../../helpers/api-util";
-import EventList from "../../components/eventList";
+import EventList from "../../components/events/eventList";
 import { Fragment } from "react";
-import ResultsTitle from "../../components/results-title";
+import ResultsTitle from "../../components/events/results-title";
 import Button from "../../components/ui/button";
-import ErrorAlert from "../../components/error-alert";
+import ErrorAlert from "../../components/ui/error-alert";
 import Head from 'next/head'
 
 function FilteredEventsPage(props) {
