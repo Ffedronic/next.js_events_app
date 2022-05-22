@@ -1,8 +1,8 @@
 import { MongoClient } from "mongodb";
 
 async function handler(req, res) {
-  const eventId = req.query.eventId;
-  const client = MongoClient.connect(
+  const eventId = await req.query.eventId;
+  const client = await MongoClient.connect(
     "mongodb+srv://felix:felixfedronic@cluster0.ygtml.mongodb.net/?retryWrites=true&w=majority"
   );
 
@@ -25,11 +25,14 @@ async function handler(req, res) {
       email: email,
       text: text,
     };
-    const db = client.db()
-    const results = await db.collection("comments").insertOne({...newComment});
-    console.log(results)
+    const db = await client.db();
+    const results = await db
+      .collection("comments")
+      .insertOne({ ...newComment });
+    console.log(results);
     newComment.id = results.insertedId;
     res.status(201).json({ message: "Added comment", comment: newComment });
+    client.close();
   }
 
   if (req.method === "GET") {
@@ -38,8 +41,13 @@ async function handler(req, res) {
       { id: "a2", name: "ines", text: "i have sended you some text" },
       { id: "a3", name: "papa", text: "i have sended you some text" },
     ];
-    res.status(200).json({ comments: dummyList });
+    const db = await client.db();
+    const results = await db
+      .collection("comments")
+      .find()
+      .sort({ _id: -1 })
+      .toArray();
+    res.status(200).json({ comments: results });
   }
-  
 }
 export default handler;
