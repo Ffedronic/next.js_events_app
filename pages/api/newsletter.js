@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+require("dotenv").config()
 
 async function handler(req, res) {
   if (req.method === "POST") {
@@ -10,7 +11,7 @@ async function handler(req, res) {
     }
 
     const client = await MongoClient.connect(
-      "mongodb+srv://felix:felixfedronic@cluster0.ygtml.mongodb.net/?retryWrites=true&w=majority"
+      `mongodb+srv://felix:${process.env.MONGODB_PASSWORD}@cluster0.ygtml.mongodb.net/?retryWrites=true&w=majority`
     );
     const db = await client.db();
     db.collection("emails").insertOne({ email: userEmail });

@@ -1,9 +1,11 @@
 import { MongoClient } from "mongodb";
+require("dotenv").config();
 
 async function handler(req, res) {
+  
   const eventId = await req.query.eventId;
   const client = await MongoClient.connect(
-    "mongodb+srv://felix:felixfedronic@cluster0.ygtml.mongodb.net/?retryWrites=true&w=majority"
+    `mongodb+srv://felix:${process.env.MONGODB_PASSWORD}@cluster0.ygtml.mongodb.net/?retryWrites=true&w=majority`
   );
 
   if (req.method === "POST") {
