@@ -2,10 +2,37 @@ import { useRef } from "react";
 import Button from "../ui/button";
 import classes from "./event-search.module.css";
 
+/**
+ * The EventSearch function is a React component that renders a form with two select elements, one for
+ * the year and one for the month. When the form is submitted, the onSearch function is called with the
+ * selected year and month.
+ * 
+ * The EventSearch function uses the useRef hook to create two refs, one for the year input and one for
+ * the month input. The refs are used to get the values of the inputs when the form is submitted.
+ * 
+ * The SubmitHandler function is the event handler for the form's submit event. It prevents the default
+ * action, gets the values of the year and month inputs, and calls the onSearch function with those
+ * values.
+ * 
+ * The EventSearch function returns a form with two select elements and a button. The form's submit
+ * event is handled by the SubmitHandler function.
+ * 
+ * The EventSearch component is used in the EventDashboard component. The EventDashboard component
+ * passes
+ * @param props - The props object that is passed to the component.
+ * @returns A form with two dropdown menus and a button.
+ */
 function EventSearch(props) {
+
   const yearInputRef = useRef();
+  
   const monthInputRef = useRef();
 
+  /**
+   * When the form is submitted, prevent the default action, get the values of the year and month
+   * inputs, and call the onSearch function with those values.
+   * @param event - The event object that is passed to the event handler.
+   */
   function SubmitHandler(event) {
     event.preventDefault();
     const selectedYear = yearInputRef.current.value;
@@ -13,6 +40,7 @@ function EventSearch(props) {
 
     props.onSearch(selectedYear, selectedMonth)
   }
+
   return (
     <form className={classes.form} onSubmit={SubmitHandler}>
       <div className={classes.controls}>

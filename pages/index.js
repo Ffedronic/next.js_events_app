@@ -22,12 +22,20 @@ function HomePage(props) {
   );
 }
 
+/**
+ * When the page is built, get the data from the API and pass it to the page as props.
+ * @param context - An object with the following properties:
+ * @returns An object with a props property.
+ */
 export async function getStaticProps(context) {
+  
   const loadedData = await getFeaturedEvents();
+  
   return {
     props: {
       data: loadedData,
     }
   }
 }
+
 export default HomePage;

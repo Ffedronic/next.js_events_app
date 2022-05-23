@@ -2,7 +2,14 @@ import EventItem from "./eventItem";
 
 import classes from "./evenList.module.css"
 
+/**
+ * The eventList function takes in a prop called items, which is an array of objects, and returns a
+ * section element with a list of EventItem components.
+ * @param props - {items: Array(3)}
+ * @returns An array of EventItem components.
+ */
 function eventList(props) {
+
     const {items} = props;
     
   return (

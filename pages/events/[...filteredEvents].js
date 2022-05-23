@@ -8,6 +8,7 @@ import Head from 'next/head'
 
 function FilteredEventsPage(props) {
 
+  /* Checking if the props has an error. If it does, it will return the error message. */
   if (props.hasError) {
     return (
       <Fragment>
@@ -22,6 +23,8 @@ function FilteredEventsPage(props) {
   }
 
   const filteredEvents = props.filteredEvents;
+
+  /* Checking if the filteredEvents is empty or not. If it is empty, it will return the error message. */
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <Fragment>
@@ -50,6 +53,12 @@ function FilteredEventsPage(props) {
   );
 }
 
+/**
+ * It gets the filtered events from the database and returns it to the page.
+ * </code>
+ * @param context - The context object contains the following properties:
+ * @returns The filteredEvents and the date.
+ */
 export async function getServerSideProps(context) {
   const { params } = context;
   const filterData = context.params.filteredEvents;
@@ -59,6 +68,8 @@ export async function getServerSideProps(context) {
   const numYear = await +filteredYear;
   const numMonth = await +filteredMonth;
 
+  /* Checking if the month and year is a number and if it is greater than 2030 or less than 1. If it
+  is, it will return an error. */
   if (
     isNaN(numMonth) ||
     isNaN(numYear) ||
@@ -77,6 +88,8 @@ export async function getServerSideProps(context) {
     year: numYear,
     month: numMonth,
   });
+
+  /* Returning the filteredEvents and the date. */
   return {
     props: {
       filteredEvents: filteredEvents,
