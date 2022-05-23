@@ -1,5 +1,4 @@
-import { MongoClient } from "mongodb";
-require("dotenv").config()
+import {connectDataBase, insertDocuments } from '/helpers/db-util'
 
 async function handler(req, res) {
   if (req.method === "POST") {
@@ -10,12 +9,23 @@ async function handler(req, res) {
       return;
     }
 
-    const client = await MongoClient.connect(
-      `mongodb+srv://felix:${process.env.MONGODB_PASSWORD}@cluster0.ygtml.mongodb.net/?retryWrites=true&w=majority`
-    );
-    const db = await client.db();
-    db.collection("emails").insertOne({ email: userEmail });
-    res.status(201).json({ message: "signed up!" });
+    let client;
+
+    try {
+      client = await connectDataBase();
+    } catch (error) {
+      res.status(500).json({ message: "Connection to the DB failed!" });
+    }
+
+    try {
+      await insertDocuments(client, "emails", {
+        email: userEmail,
+      });
+
+      res.status(201).json({ message: "signed up!" });
+    } catch (error) {
+      res.status(500).json({message: "sign un failed!"})
+    }
   }
 }
 

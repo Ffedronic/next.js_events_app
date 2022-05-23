@@ -1,12 +1,19 @@
-import { MongoClient } from "mongodb";
-require("dotenv").config();
+import {
+  connectDataBase,
+  insertDocuments,
+  getDocuments,
+} from "/helpers/db-util";
 
 async function handler(req, res) {
-  
   const eventId = await req.query.eventId;
-  const client = await MongoClient.connect(
-    `mongodb+srv://felix:${process.env.MONGODB_PASSWORD}@cluster0.ygtml.mongodb.net/?retryWrites=true&w=majority`
-  );
+
+  let client;
+
+  try {
+    client = await connectDataBase();
+  } catch (error) {
+    res.status(500).json({ message: "Connection to the DB failed!" });
+  }
 
   if (req.method === "POST") {
     const { email, text, name } = req.body;
@@ -27,29 +34,34 @@ async function handler(req, res) {
       email: email,
       text: text,
     };
-    const db = await client.db();
-    const results = await db
-      .collection("comments")
-      .insertOne({ ...newComment });
-    console.log(results);
-    newComment.id = results.insertedId;
-    res.status(201).json({ message: "Added comment", comment: newComment });
-    client.close();
+
+    try {
+      const results = await insertDocuments(client, "comments", {
+        ...newComment,
+      });
+
+      newComment.id = await results.insertedId;
+
+      res.status(201).json({ message: "Added comment", comment: newComment });
+    } catch (error) {
+      res.status(401).json({ message: "insert comments failed" });
+    }
   }
 
   if (req.method === "GET") {
-    const dummyList = [
-      { id: "a1", name: "felix", text: "i have sended you some text" },
-      { id: "a2", name: "ines", text: "i have sended you some text" },
-      { id: "a3", name: "papa", text: "i have sended you some text" },
-    ];
-    const db = await client.db();
-    const results = await db
-      .collection("comments")
-      .find()
-      .sort({ _id: -1 })
-      .toArray();
-    res.status(200).json({ comments: results });
+    
+    try {
+      client = await connectDataBase();
+    } catch (error) {
+      res.status(500).json({ message: "Connection to the DB failed!" });
+    }
+
+    try {
+      const results = await getDocuments(client, "comments");
+      res.status(200).json({ comments: results });
+    } catch (error) {
+      res.status(401).json({ message: "load comments failed" });
+    }
   }
 }
 export default handler;
