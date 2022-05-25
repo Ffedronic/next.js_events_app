@@ -9,6 +9,7 @@ function NewComment(props) {
   const commentInputRef = useRef();
 
   function sendCommentHandler(event) {
+    
     event.preventDefault();
 
     const enteredEmail = emailInputRef.current.value;

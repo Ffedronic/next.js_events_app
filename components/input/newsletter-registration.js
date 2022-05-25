@@ -27,7 +27,7 @@ function NewsletterRegistration() {
     })
       .then((response) => {
         if (response.ok) {
-         return response.json();
+          return response.json();
         }
 
         return response.json().then((data) => {
